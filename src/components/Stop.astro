@@ -1,0 +1,51 @@
+---
+interface Props {
+  index: number;
+  id: string;
+  eyebrow: string;
+  heading: string;
+  body: string;
+  /** La primera parada funciona como hero: usa <h1> y un titular con degradado. */
+  first?: boolean;
+}
+
+const { index, id, eyebrow, heading, body, first = false } = Astro.props;
+const Heading = first ? 'h1' : 'h2';
+---
+
+<article id={id} data-stop class="stop flex min-h-lvh flex-col justify-end px-6 pb-16 lg:px-16 lg:pb-24">
+  <div class="max-w-[680px]">
+    <span class="block font-sans text-xs font-medium tracking-widest text-accent uppercase">
+      {eyebrow}
+    </span>
+    <Heading
+      class:list={[
+        'mt-4 max-w-[680px] text-balance font-display text-4xl lg:text-6xl',
+        first
+          ? 'bg-linear-to-r from-bg to-[#b5ab98] bg-clip-text text-transparent'
+          : 'text-bg',
+      ]}
+    >
+      {heading}
+    </Heading>
+    <p class="mt-4 max-w-md text-pretty text-base text-bg/80 lg:text-lg">
+      {body}
+    </p>
+    <slot />
+  </div>
+</article>
+
+<style>
+  .stop {
+    opacity: 0.35;
+    transform: translateY(16px);
+    transition:
+      opacity 800ms var(--ease-fluid),
+      transform 800ms var(--ease-fluid);
+  }
+
+  .stop.is-current {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

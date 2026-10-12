@@ -1,0 +1,28 @@
+---
+import '../styles/global.css';
+import { brand } from '../data/aura';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${brand.name} · Preventa en Del Valle, CDMX`,
+  description = 'Preventa de Torre Aura Del Valle: departamentos de 1 a 3 recámaras y penthouse en Del Valle Centro, CDMX. Alberca, gimnasio, roof garden y seguridad 24/7.',
+} = Astro.props;
+---
+
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <!-- Proyecto demo ficticio: no indexar para no confundirse con una oferta real de preventa. -->
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="font-sans">
+    <slot />
+  </body>
+</html>

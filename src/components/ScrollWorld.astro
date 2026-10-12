@@ -1,0 +1,168 @@
+---
+import Stop from './Stop.astro';
+import { paradas, links } from '../data/aura';
+
+const last = paradas.length - 1;
+---
+
+<section data-world aria-label="Recorrido por Torre Aura Del Valle" class="relative">
+  <!-- Escenario fijo: el fotograma de cada parada ocupa toda la pantalla. Cuando haya clips,
+       se agregan aquí como <video data-clip> igual que en world.ts de la referencia. -->
+  <div data-stage class="sticky top-0 h-lvh overflow-hidden bg-ink" style="--focus-x: 50%">
+    <div aria-hidden="true" class="absolute inset-0">
+      {
+        paradas.map((parada, i) => (
+          <picture data-frame class="frame absolute inset-0" style={i === 0 ? undefined : 'opacity:0'}>
+            <source srcset={`${parada.poster}.webp`} type="image/webp" />
+            <img
+              src={`${parada.poster}.jpg`}
+              alt=""
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : 'low'}
+              decoding="async"
+              class="size-full object-cover"
+              style="object-position: var(--focus-x) 50%"
+            />
+          </picture>
+        ))
+      }
+    </div>
+
+    <!-- Velos para leer el texto encima de la foto. -->
+    <div aria-hidden="true" class="absolute inset-x-0 top-0 h-40 bg-linear-to-b from-ink/60 to-transparent"></div>
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 bg-linear-to-t from-ink from-15% via-ink/50 via-50% to-transparent to-80% lg:bg-linear-to-r lg:from-ink/90 lg:via-ink/40 lg:via-35% lg:to-transparent lg:to-65%"
+    >
+    </div>
+
+    <!-- Raíl de paradas. -->
+    <nav aria-label="Paradas del recorrido" class="absolute top-1/2 right-6 hidden -translate-y-1/2 lg:block xl:right-8">
+      <ol class="relative flex flex-col items-end gap-4">
+        <span aria-hidden="true" class="absolute top-3 right-1 bottom-3 w-px translate-x-1/2 bg-bg/30">
+          <span data-rail-fill class="absolute inset-0 origin-top scale-y-0 bg-accent"></span>
+        </span>
+        {
+          paradas.map((parada, i) => (
+            <li>
+              <a
+                href={`#${parada.id}`}
+                data-goto
+                aria-current={i === 0 ? 'true' : 'false'}
+                class="rail-link group flex h-6 items-center gap-3"
+              >
+                <span class="rail-label rounded-full bg-ink/60 px-3 py-1 text-xs whitespace-nowrap text-bg ring-1 ring-bg/10 backdrop-blur-xl">
+                  {parada.eyebrow}
+                </span>
+                <span class="relative grid size-2 place-items-center">
+                  <span class="rail-dot size-2 rounded-full bg-bg/50" />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <p
+      data-hint
+      aria-hidden="true"
+      class="absolute right-8 bottom-8 hidden items-center gap-3 text-xs tracking-widest text-bg/70 uppercase lg:flex"
+    >
+      Desliza para recorrer la torre
+      <span class="hint-line relative block h-8 w-px overflow-hidden bg-bg/20"></span>
+    </p>
+  </div>
+
+  <!-- Paradas: cada una deja su texto abajo a la izquierda mientras el recorrido avanza. -->
+  <div class="relative z-10 -mt-[100lvh]">
+    {
+      paradas.map((parada, i) => (
+        <Stop index={i} id={parada.id} eyebrow={parada.eyebrow} heading={parada.heading} body={parada.body} first={i === 0}>
+          {(i === 0 || i === last) && (
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href={links.elegirDepartamento}
+                class="rounded-full bg-accent px-3 py-2 text-base font-semibold text-ink transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.03] active:scale-[0.98]"
+              >
+                Elegir mi departamento
+              </a>
+              <a
+                href={links.agendarVisita}
+                target="_blank"
+                rel="noreferrer"
+                class="rounded-full px-3 py-2 text-base font-semibold text-bg ring-1 ring-bg/40 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-bg/10"
+              >
+                Agendar visita
+              </a>
+            </div>
+          )}
+          {i === 0 && (
+            <p class="mt-6 text-xs tracking-widest text-bg/70 uppercase">
+              12 niveles · 46 departamentos · Entrega estimada marzo 2028
+            </p>
+          )}
+        </Stop>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .frame {
+    will-change: opacity, transform;
+  }
+
+  .rail-label {
+    opacity: 0;
+    transform: translateX(0.5rem);
+    transition:
+      opacity 700ms var(--ease-fluid),
+      transform 700ms var(--ease-fluid);
+  }
+
+  .rail-dot {
+    transition:
+      background-color 700ms var(--ease-fluid),
+      transform 700ms var(--ease-fluid);
+  }
+
+  .rail-link:hover .rail-label,
+  .rail-link:focus-visible .rail-label,
+  .rail-link[aria-current='true'] .rail-label {
+    opacity: 1;
+    transform: none;
+  }
+
+  .rail-link:hover .rail-dot {
+    background-color: var(--color-bg);
+  }
+
+  .rail-link[aria-current='true'] .rail-dot {
+    background-color: var(--color-accent);
+    transform: scale(1.5);
+  }
+
+  .hint-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-bg);
+    animation: hint 2400ms var(--ease-fluid) infinite;
+  }
+
+  @keyframes hint {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hint-line::after {
+      animation: none;
+    }
+  }
+</style>
