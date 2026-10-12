@@ -1,0 +1,73 @@
+---
+import Icon from './Icon.astro';
+import { pagos } from '../data/aura';
+
+const mxn = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+const enganche = (pagos.ejemploPrecio * pagos.enganchePct) / 100;
+const mensualidad = Math.round(enganche / pagos.mensualidades);
+const saldo = pagos.ejemploPrecio - enganche;
+
+const pasos = [
+  {
+    titulo: `${pagos.enganchePct}% de enganche`,
+    detalle: `Se cubre en ${pagos.mensualidades} mensualidades sin intereses desde el apartado.`,
+  },
+  {
+    titulo: `${pagos.mensualidades} mensualidades`,
+    detalle: 'Pagos fijos mientras avanza la obra, sin sorpresas en el monto.',
+  },
+  {
+    titulo: 'Saldo contra entrega',
+    detalle: 'Se liquida de contado o con crédito hipotecario al momento de la escrituración.',
+  },
+];
+---
+
+<section id="pagos" aria-labelledby="pagos-title" class="px-6 py-24 lg:px-16 lg:py-32">
+  <div class="mx-auto max-w-6xl">
+    <div class="max-w-xl">
+      <p data-reveal class="text-sm text-accent">Esquema de pagos</p>
+      <h2 id="pagos-title" data-reveal style="--d:100ms" class="mt-4 text-3xl lg:text-5xl">
+        Un enganche que puedes planear
+      </h2>
+    </div>
+
+    <div class="mt-12 grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+      <ol class="flex flex-col gap-6">
+        {
+          pasos.map((paso, i) => (
+            <li data-reveal style={`--d:${i * 100}ms`} class="flex gap-4">
+              <span class="font-display text-2xl text-accent">{i + 1}</span>
+              <div>
+                <h3 class="text-lg font-semibold">{paso.titulo}</h3>
+                <p class="mt-1 text-base text-ink/70">{paso.detalle}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div data-reveal style="--d:200ms" class="flex flex-col gap-4 rounded-3xl bg-ink p-6 text-bg lg:p-8">
+        <p class="text-sm text-bg/60">Ejemplo sobre un departamento de {mxn.format(pagos.ejemploPrecio)}</p>
+        <dl class="mt-2 flex flex-col divide-y divide-bg/15">
+          <div class="flex items-baseline justify-between py-4 first:pt-0">
+            <dt class="text-sm text-bg/70">Enganche ({pagos.enganchePct}%)</dt>
+            <dd class="font-display text-2xl">{mxn.format(enganche)}</dd>
+          </div>
+          <div class="flex items-baseline justify-between py-4">
+            <dt class="text-sm text-bg/70">Mensualidad ({pagos.mensualidades} pagos)</dt>
+            <dd class="font-display text-2xl">{mxn.format(mensualidad)}</dd>
+          </div>
+          <div class="flex items-baseline justify-between py-4 last:pb-0">
+            <dt class="text-sm text-bg/70">Saldo contra entrega</dt>
+            <dd class="font-display text-2xl">{mxn.format(saldo)}</dd>
+          </div>
+        </dl>
+        <p class="mt-2 flex items-start gap-2 text-xs text-bg/50">
+          <Icon name="checkCircle" class="mt-0.5 size-4 shrink-0" />
+          Ejemplo informativo, no es una cotización. El precio final depende de la tipología y del nivel.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -26,6 +26,25 @@ const last = paradas.length - 1;
           </picture>
         ))
       }
+      <div class="clips absolute inset-0">
+        {
+          paradas
+            .filter((parada) => parada.clip)
+            .map((parada) => (
+              <video
+                data-clip
+                data-src={parada.clip}
+                muted
+                playsinline
+                preload="none"
+                disablepictureinpicture
+                disableremoteplayback
+                tabindex="-1"
+                class="clip absolute inset-0 size-full object-cover"
+              />
+            ))
+        }
+      </div>
     </div>
 
     <!-- Velos para leer el texto encima de la foto. -->
@@ -111,6 +130,25 @@ const last = paradas.length - 1;
 <style>
   .frame {
     will-change: opacity, transform;
+  }
+
+  .clips {
+    opacity: 0;
+    transition: opacity 1200ms var(--ease-fluid);
+  }
+
+  [data-mode='video'] .clips {
+    opacity: 1;
+  }
+
+  /* Solo se ve el clip del tramo actual; el cambio entre clips es instantáneo porque comparten fotograma. */
+  .clip {
+    object-position: var(--focus-x) 50%;
+    visibility: hidden;
+  }
+
+  .clip.is-shown {
+    visibility: visible;
   }
 
   .rail-label {

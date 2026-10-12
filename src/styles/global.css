@@ -24,3 +24,163 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
 }
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+p,
+li,
+dd,
+blockquote {
+  text-wrap: pretty;
+}
+
+address {
+  font-style: normal;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+@layer components {
+  /* Botón principal: acento con texto grafito. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    border-radius: 9999px;
+    padding: 8px 12px;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: 600;
+    transition:
+      background-color 700ms var(--ease-fluid),
+      color 700ms var(--ease-fluid),
+      box-shadow 700ms var(--ease-fluid),
+      transform 700ms var(--ease-fluid);
+  }
+
+  .btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .btn-primary:hover {
+    transform: scale(1.03);
+  }
+
+  .btn-ghost {
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 25%, transparent);
+  }
+
+  .btn-ghost:hover {
+    background-color: color-mix(in oklab, var(--color-ink) 6%, transparent);
+    transform: scale(1.03);
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(in oklab, var(--color-ink) 35%, transparent);
+    transition:
+      color 700ms var(--ease-fluid),
+      text-decoration-color 700ms var(--ease-fluid);
+  }
+
+  .link:hover {
+    color: var(--color-accent);
+    text-decoration-color: var(--color-accent);
+  }
+
+  /* Entrada al hacer scroll: sube, enfoca y aparece. Sin JS, el contenido ya es visible. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(4rem);
+    filter: blur(12px);
+    transition:
+      opacity 1000ms var(--ease-fluid),
+      transform 1000ms var(--ease-fluid),
+      filter 1000ms var(--ease-fluid);
+    transition-delay: var(--d, 0ms);
+  }
+
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  /* Acordeón de preguntas. */
+  .faq::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size 700ms var(--ease-fluid),
+      content-visibility 700ms allow-discrete;
+  }
+
+  .faq[open]::details-content {
+    block-size: auto;
+  }
+
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq .faq-icon {
+    transition: transform 700ms var(--ease-fluid);
+  }
+
+  .faq[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  /* Palabras de la sección de lema: empiezan atenuadas y se activan una a una al hacer scroll.
+     Sin JS, el texto ya se ve con el color final. */
+  .js .tagline-word {
+    color: color-mix(in oklab, var(--color-ink) 30%, transparent);
+    transition: color 900ms var(--ease-fluid);
+  }
+
+  .js .tagline-word.is-in {
+    color: var(--color-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    transform: none;
+    filter: none;
+    transition: opacity 400ms var(--ease-fluid);
+  }
+
+  .tagline-word {
+    transition: color 400ms var(--ease-fluid);
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

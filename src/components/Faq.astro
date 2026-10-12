@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import Pending from './Pending.astro';
+import { asesora, faqs, faqsPendientes, links } from '../data/aura';
+---
+
+<section id="preguntas" aria-labelledby="preguntas-title" class="px-6 py-24 lg:px-16 lg:py-32">
+  <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1fr_1.6fr]">
+    <div>
+      <p data-reveal class="text-sm text-accent">Preguntas frecuentes</p>
+      <h2 id="preguntas-title" data-reveal style="--d:100ms" class="mt-4 text-3xl lg:text-5xl">
+        Antes de apartar
+      </h2>
+      <p data-reveal style="--d:200ms" class="mt-6 max-w-sm text-base text-ink/70">
+        ¿Te queda alguna duda? Escríbele a {asesora.nombre.split(' ')[0]} por{' '}
+        <a href={links.agendarVisitaAsesora} class="link" rel="noopener" target="_blank">
+          WhatsApp
+        </a>.
+      </p>
+    </div>
+
+    <div class="divide-y divide-ink/10">
+      {
+        faqs.map((faq) => (
+          <details data-reveal class="faq group">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-accent">
+              <h3 class="font-sans text-lg">{faq.pregunta}</h3>
+              <Icon name="plus" class="faq-icon size-6 shrink-0 text-accent" />
+            </summary>
+            <div class="pb-6">
+              <p class="max-w-2xl text-base text-ink/70">{faq.respuesta}</p>
+              {faq.pending && <Pending class="mt-4">{faq.pending}</Pending>}
+            </div>
+          </details>
+        ))
+      }
+      {faqsPendientes.map((texto) => <Pending class="my-4">{texto}</Pending>)}
+    </div>
+  </div>
+</section>

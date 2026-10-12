@@ -1,0 +1,15 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+{
+  import.meta.env.DEV && (
+    <p class:list={['rounded-lg bg-accent/15 px-3 py-2 text-xs text-ink/70 ring-1 ring-accent/30', className]}>
+      <strong class="font-semibold text-ink">Pendiente:</strong> <slot />
+    </p>
+  )
+}

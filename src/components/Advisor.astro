@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import { asesora, links } from '../data/aura';
+---
+
+<section id="asesora" aria-labelledby="asesora-title" class="px-6 py-24 lg:px-16 lg:py-32">
+  <div class="mx-auto max-w-4xl">
+    <div
+      data-reveal
+      class="flex flex-col items-center gap-8 rounded-3xl bg-ink p-8 text-center text-bg lg:flex-row lg:items-center lg:gap-12 lg:p-12 lg:text-left"
+    >
+      <div
+        class="flex size-24 shrink-0 items-center justify-center rounded-full bg-accent font-display text-3xl text-ink lg:size-32 lg:text-4xl"
+      >
+        {asesora.iniciales}
+      </div>
+
+      <div class="flex flex-1 flex-col items-center lg:items-start">
+        <p class="text-sm text-bg/60">Tu asesora</p>
+        <h2 id="asesora-title" class="mt-2 text-3xl lg:text-4xl">{asesora.nombre}</h2>
+        <p class="mt-1 text-base text-bg/70">{asesora.puesto}</p>
+
+        <div class="mt-6 flex flex-col items-center gap-3 lg:items-start">
+          <p class="flex items-center gap-2 text-sm text-bg/70">
+            <Icon name="clock" class="size-4 shrink-0" />
+            {asesora.horario}
+          </p>
+          <a href={links.agendarVisitaAsesora} class="link flex items-center gap-2 text-sm" rel="noopener" target="_blank">
+            <Icon name="whatsapp" class="size-4 shrink-0" />
+            Escríbele por WhatsApp
+          </a>
+        </div>
+
+        <a href={links.agendarVisitaAsesora} class="btn btn-primary mt-8" rel="noopener" target="_blank">
+          <span>Agendar visita</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

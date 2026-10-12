@@ -1,0 +1,26 @@
+---
+import { links } from '../data/aura';
+---
+
+<section aria-labelledby="final-title" class="relative flex h-lvh items-center justify-center overflow-hidden px-6">
+  <picture class="absolute inset-0" aria-hidden="true">
+    <source srcset="/photos/1-fachada.webp" type="image/webp" />
+    <img src="/photos/1-fachada.jpg" alt="" loading="lazy" decoding="async" class="size-full object-cover" />
+  </picture>
+  <div aria-hidden="true" class="absolute inset-0 bg-linear-to-t from-ink from-10% via-ink/50 via-50% to-ink/20"></div>
+
+  <div class="relative flex max-w-[680px] flex-col items-center text-center">
+    <p data-reveal class="text-sm text-bg/80">Torre Aura Del Valle</p>
+    <h2 id="final-title" data-reveal style="--d:100ms" class="mt-4 text-balance font-display text-4xl text-bg lg:text-6xl">
+      Elige el departamento que te va a cambiar el camino a casa
+    </h2>
+    <p data-reveal style="--d:200ms" class="mt-6 text-base text-bg/80 lg:text-lg">
+      Preventa abierta. Entrega estimada marzo 2028.
+    </p>
+    <div data-reveal style="--d:300ms" class="mt-8">
+      <a href={links.elegirDepartamento} class="btn btn-primary">
+        <span>Elegir mi departamento</span>
+      </a>
+    </div>
+  </div>
+</section>

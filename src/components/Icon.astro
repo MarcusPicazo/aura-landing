@@ -1,0 +1,41 @@
+---
+import barbell from '@phosphor-icons/core/assets/light/barbell-light.svg?raw';
+import car from '@phosphor-icons/core/assets/light/car-simple-light.svg?raw';
+import checkCircle from '@phosphor-icons/core/assets/light/check-circle-light.svg?raw';
+import clock from '@phosphor-icons/core/assets/light/clock-light.svg?raw';
+import laptop from '@phosphor-icons/core/assets/light/laptop-light.svg?raw';
+import mapPin from '@phosphor-icons/core/assets/light/map-pin-light.svg?raw';
+import paw from '@phosphor-icons/core/assets/light/paw-print-light.svg?raw';
+import plus from '@phosphor-icons/core/assets/light/plus-light.svg?raw';
+import pool from '@phosphor-icons/core/assets/light/swimming-pool-light.svg?raw';
+import puzzle from '@phosphor-icons/core/assets/light/puzzle-piece-light.svg?raw';
+import shield from '@phosphor-icons/core/assets/light/shield-check-light.svg?raw';
+import tree from '@phosphor-icons/core/assets/light/tree-light.svg?raw';
+import whatsapp from '@phosphor-icons/core/assets/light/whatsapp-logo-light.svg?raw';
+
+const icons = {
+  barbell,
+  car,
+  checkCircle,
+  clock,
+  laptop,
+  mapPin,
+  paw,
+  plus,
+  pool,
+  puzzle,
+  shield,
+  tree,
+  whatsapp,
+};
+
+interface Props {
+  name: keyof typeof icons;
+  class?: string;
+}
+
+const { name, class: className = 'size-4' } = Astro.props;
+const svg = icons[name].replace('<svg ', `<svg aria-hidden="true" focusable="false" class="${className}" `);
+---
+
+<Fragment set:html={svg} />

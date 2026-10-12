@@ -1,0 +1,46 @@
+---
+import Icon from './Icon.astro';
+import { ubicacion } from '../data/aura';
+---
+
+<section id="ubicacion" aria-labelledby="ubicacion-title" class="px-6 py-24 lg:px-16 lg:py-32">
+  <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center">
+    <div data-reveal class="overflow-hidden rounded-3xl">
+      <img
+        src="/photos/0-aerea.webp"
+        alt="Vista aérea de Torre Aura Del Valle entre las calles arboladas de Del Valle Centro"
+        loading="lazy"
+        decoding="async"
+        class="aspect-[4/5] w-full object-cover"
+      />
+    </div>
+
+    <div>
+      <p data-reveal class="text-sm text-accent">Ubicación</p>
+      <h2 id="ubicacion-title" data-reveal style="--d:100ms" class="mt-4 text-3xl lg:text-5xl">
+        {ubicacion.colonia}
+      </h2>
+      <div data-reveal style="--d:150ms" class="mt-4 flex items-start gap-2 text-base text-ink/70">
+        <Icon name="mapPin" class="mt-1 size-4 shrink-0 text-accent" />
+        <address>
+          {ubicacion.direccion}<br />
+          {ubicacion.codigoPostal}
+          <span class="block text-sm text-ink/50">(dirección ilustrativa)</span>
+        </address>
+      </div>
+
+      <ul class="mt-8 flex flex-col divide-y divide-ink/10">
+        {
+          ubicacion.puntos.map((punto, i) => (
+            <li data-reveal style={`--d:${200 + i * 60}ms`} class="flex items-center justify-between gap-4 py-4 first:pt-0">
+              <span class="text-base">{punto.nombre}</span>
+              <span class="shrink-0 text-sm text-ink/60 tabular-nums">
+                {punto.minutos} min {punto.modo}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

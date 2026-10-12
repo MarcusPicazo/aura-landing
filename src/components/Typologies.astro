@@ -1,0 +1,66 @@
+---
+import { links, tipologias } from '../data/aura';
+
+const mxn = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+---
+
+<section id="departamentos" aria-labelledby="departamentos-title" class="px-6 py-24 lg:px-16 lg:py-32">
+  <div class="mx-auto max-w-6xl">
+    <div class="max-w-xl">
+      <p data-reveal class="text-sm text-accent">Tipologías</p>
+      <h2 id="departamentos-title" data-reveal style="--d:100ms" class="mt-4 text-3xl lg:text-5xl">
+        De una recámara a penthouse con terraza
+      </h2>
+      <p data-reveal style="--d:200ms" class="mt-6 text-base text-ink/70 lg:text-lg">
+        Cinco tipologías de 62 a 180 m², todas con balcón o terraza propia.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        tipologias.map((tipo, i) => (
+          <article
+            data-reveal
+            style={`--d:${(i % 3) * 100}ms`}
+            class:list={[
+              'flex flex-col overflow-hidden rounded-3xl bg-bg ring-1',
+              tipo.terraza ? 'ring-accent/60 lg:col-span-2' : 'ring-ink/10',
+            ]}
+          >
+            <div class="relative aspect-[4/3]">
+              <img
+                src={tipo.interior}
+                alt={`Sala de la ${tipo.nombre.toLowerCase()} de Torre Aura Del Valle`}
+                loading="lazy"
+                decoding="async"
+                class="size-full object-cover"
+              />
+              {tipo.terraza && (
+                <p class="absolute top-4 left-4 rounded-full bg-ink/80 px-3 py-1 text-xs font-medium text-bg backdrop-blur-xl">
+                  Terraza propia
+                </p>
+              )}
+            </div>
+            <div class="flex flex-1 flex-col p-6 lg:p-8">
+              <h3 class="font-display text-2xl">{tipo.nombre}</h3>
+              <p class="mt-2 text-sm text-ink/70">
+                {tipo.recamaras} {tipo.recamaras === 1 ? 'recámara' : 'recámaras'} · {tipo.m2Desde}
+                {tipo.m2Hasta ? `–${tipo.m2Hasta}` : ''} m²
+              </p>
+              <p class="mt-4 text-base text-ink/70">{tipo.resumen}</p>
+              <div class="mt-6 flex flex-1 flex-col items-start justify-end gap-4">
+                <p class="flex items-baseline gap-2">
+                  <span class="font-display text-3xl">{mxn.format(tipo.precioDesde)}</span>
+                  <span class="text-sm text-ink/50">desde</span>
+                </p>
+                <a href={links.elegirDepartamento} class="btn btn-primary">
+                  <span>Ver disponibles</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
