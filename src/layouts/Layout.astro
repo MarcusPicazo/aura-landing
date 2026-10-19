@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { brand } from '../data/aura';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 
 interface Props {
   title?: string;
@@ -24,9 +25,11 @@ const {
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#f4efe8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
   <body class="font-sans">
     <slot />
+    <WhatsAppFloat />
   </body>
 </html>
